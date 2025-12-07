@@ -30,19 +30,17 @@
 ## Лістинг функції з використанням конструктивного підходу
 ```lisp
 (defun bubble-pass-functional (lst)
-  "Виконує один прохід сортування обміном.
-   Повертає два значення: новий список і ознаку, чи був обмін."
-  (cond
-    ((or (null lst) (null (cdr lst)))
-     (values lst nil))
-    ((> (car lst) (cadr lst))
-     (multiple-value-bind (tail-result tail-swapped)
-         (bubble-pass-functional (cons (car lst) (cddr lst)))
-       (values (cons (cadr lst) tail-result) t)))
-    (t
-     (multiple-value-bind (tail-result tail-swapped)
-         (bubble-pass-functional (cdr lst))
-       (values (cons (car lst) tail-result) tail-swapped)))))
+  (if (or (null lst) (null (cdr lst)))
+      (values lst nil)
+    (let ((x (car lst))
+          (y (cadr lst)))
+      (if (> x y)
+          (multiple-value-bind (rest swapped)
+              (bubble-pass-functional (cons x (cddr lst)))
+            (values (cons y rest) t))
+          (multiple-value-bind (rest swapped)
+              (bubble-pass-functional (cdr lst))
+            (values (cons x rest) swapped))))))
 
 (defun functional-sort (lst)
   (multiple-value-bind (new-list swapped) 
