@@ -52,7 +52,7 @@
         new-list)))
 ```
 
-###Тестові набори та утиліти
+### Тестові набори та утиліти
 ```lisp
 (defun check-sort (name func input expected)
   (format t "~:[FAILED~;passed~] ~a~%"
